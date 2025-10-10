@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Tech Assistant - Live Demo</title>
+    <style>
+        /* CSS for a simple, attractive design */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 450px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: #4A90E2; /* Google/Gemini-inspired Blue */
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #3c78c0;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        .header p {
+            margin-top: 5px;
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .chat-window {
+            height: 400px;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #e9eff5; /* Light background for chat area */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Message Styles (Placeholder content) */
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .assistant {
+            align-self: flex-start;
+            background-color: #ffffff;
+            color: #333;
+            border-bottom-left-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        .user {
+            align-self: flex-end;
+            background-color: #4A90E2;
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+        
+        /* Input Area */
+        .input-area {
+            padding: 15px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            background-color: #ffffff;
+        }
+
+        .input-area input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 2px solid #ccc;
+            border-radius: 25px;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-area input:focus {
+            border-color: #4A90E2;
+        }
+
+        .input-area button {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: background-color 0.3s;
+        }
+
+        .input-area button:hover {
+            background-color: #3c78c0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="header">
+            <h1>Gemini Tech Assistant 🤖</h1>
+            <p>Your instant support for software, network, and hardware issues.</p>
+        </div>
+
+        <div class="chat-window">
+            <div class="message assistant">
+                Hello! I'm your Gemini Tech Assistant. How can I help resolve your issue today?
+            </div>
+            <div class="message user">
+                My Wi-Fi keeps disconnecting, and I can't figure out why.
+            </div>
+            <div class="message assistant">
+                I see. That's a common issue. Let's start with the basics: Have you tried **rebooting your router and modem**?
+            </div>
+            <div class="message user">
+                Yes, I did that five minutes ago. No change.
+            </div>
+            <div class="message assistant">
+                Thank you. Let's try checking your **network adapter settings** next. What operating system are you currently using (Windows, macOS, etc.)?
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" placeholder="Type your issue or question here...">
+            <button aria-label="Send message">▲</button>
+        </div>
+    </div>
+
+</body>
+</html>
