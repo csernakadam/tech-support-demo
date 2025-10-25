@@ -4,152 +4,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gemini Tech Assistant - Live Demo</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* CSS for a simple, attractive design */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f7f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-
-        .chat-container {
-            width: 100%;
-            max-width: 450px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background-color: #4A90E2; /* Google/Gemini-inspired Blue */
-            color: white;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 3px solid #3c78c0;
-        }
-
-        .header h1 {
-            margin: 0;
-            font-size: 1.5em;
-            font-weight: 600;
-        }
-
-        .header p {
-            margin-top: 5px;
-            font-size: 0.9em;
-            opacity: 0.9;
-        }
-
-        .chat-window {
-            height: 400px;
-            padding: 15px;
-            overflow-y: auto;
-            background-color: #e9eff5; /* Light background for chat area */
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        /* Message Styles (Placeholder content) */
-        .message {
-            max-width: 80%;
-            padding: 10px 15px;
-            border-radius: 18px;
-            line-height: 1.4;
-            word-wrap: break-word;
-        }
-
-        .assistant {
-            align-self: flex-start;
-            background-color: #ffffff;
-            color: #333;
-            border-bottom-left-radius: 2px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-        }
-
-        .user {
-            align-self: flex-end;
-            background-color: #4A90E2;
-            color: white;
-            border-bottom-right-radius: 2px;
-        }
-        
-        /* Input Area */
-        .input-area {
-            padding: 15px;
-            border-top: 1px solid #e0e0e0;
-            display: flex;
-            background-color: #ffffff;
-        }
-
-        .input-area input {
-            flex-grow: 1;
-            padding: 10px 15px;
-            border: 2px solid #ccc;
-            border-radius: 25px;
-            font-size: 1em;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .input-area input:focus {
-            border-color: #4A90E2;
-        }
-
-        .input-area button {
-            background-color: #4A90E2;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            margin-left: 10px;
-            cursor: pointer;
-            font-size: 1.2em;
-            transition: background-color 0.3s;
-        }
-
-        .input-area button:hover {
-            background-color: #3c78c0;
-        }
+        /* Custom scrollbar for a cleaner look */
+        .chat-window::-webkit-scrollbar { width: 6px; }
+        .chat-window::-webkit-scrollbar-thumb { background-color: #888; border-radius: 3px; }
+        .chat-window::-webkit-scrollbar-thumb:hover { background-color: #555; }
     </style>
 </head>
-<body>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 font-sans">
 
-    <div class="chat-container">
-        <div class="header">
-            <h1>Gemini Tech Assistant 🤖</h1>
-            <p>Your instant support for software, network, and hardware issues.</p>
+    <div id="chat-container" class="w-full max-w-lg bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col h-[80vh] max-h-[700px]">
+
+        <!-- Header -->
+        <div class="bg-blue-600 text-white p-5 text-center shadow-lg">
+            <h1 class="text-2xl font-bold">Gemini Tech Assistant 🤖</h1>
+            <p class="text-sm opacity-90 mt-1">Your instant support for software, network, and hardware issues.</p>
         </div>
 
-        <div class="chat-window">
-            <div class="message assistant">
+        <!-- Chat Window -->
+        <div id="chat-window" class="chat-window flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col gap-3">
+            <!-- Initial Assistant Message -->
+            <div class="message assistant self-start bg-white text-gray-800 p-3 rounded-xl rounded-tl-sm shadow-md max-w-[80%]">
                 Hello! I'm your Gemini Tech Assistant. How can I help resolve your issue today?
             </div>
-            <div class="message user">
-                My Wi-Fi keeps disconnecting, and I can't figure out why.
-            </div>
-            <div class="message assistant">
-                I see. That's a common issue. Let's start with the basics: Have you tried **rebooting your router and modem**?
-            </div>
-            <div class="message user">
-                Yes, I did that five minutes ago. No change.
-            </div>
-            <div class="message assistant">
-                Thank you. Let's try checking your **network adapter settings** next. What operating system are you currently using (Windows, macOS, etc.)?
-            </div>
         </div>
 
-        <div class="input-area">
-            <input type="text" placeholder="Type your issue or question here...">
-            <button aria-label="Send message">▲</button>
+        <!-- Input Area -->
+        <div class="p-4 border-t border-gray-200 flex items-center bg-white">
+            <input 
+                id="user-input"
+                type="text" 
+                placeholder="Type your issue or question here..." 
+                class="flex-grow p-3 border-2 border-gray-300 rounded-full focus:outline-none focus:border-blue-500 transition duration-200 text-gray-700"
+                onkeypress="if(event.key === 'Enter') document.getElementById('send-button').click()"
+            >
+            <button 
+                id="send-button" 
+                onclick="sendMessage()" 
+                class="bg-blue-600 text-white w-11 h-11 rounded-full ml-3 flex items-center justify-center shadow-lg hover:bg-blue-700 transition duration-200 disabled:opacity-50"
+                aria-label="Send message"
+            >
+                <!-- Send Icon (Using inline SVG for compatibility) -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                </svg>
+            </button>
         </div>
     </div>
 
+    <script>
+        const chatWindow = document.getElementById('chat-window');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+
+        // Function to display messages in the chat window
+        function displayMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.textContent = text;
+            
+            // Tailwind classes for styling based on sender
+            if (sender === 'user') {
+                messageDiv.className = 'message user self-end bg-blue-600 text-white p-3 rounded-xl rounded-br-sm shadow-md max-w-[80%]';
+            } else { // assistant
+                messageDiv.className = 'message assistant self-start bg-white text-gray-800 p-3 rounded-xl rounded-tl-sm shadow-md max-w-[80%] whitespace-pre-wrap';
+            }
+            
+            chatWindow.appendChild(messageDiv);
+            // Scroll to the latest message
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        // Main function to handle user input and API call
+        async function sendMessage() {
+            const prompt = userInput.value.trim();
+            if (!prompt) return;
+
+            // 1. Display user message
+            displayMessage(prompt, 'user');
+            userInput.value = ''; // Clear input field
+            sendButton.disabled = true;
+
+            // 2. Add a loading indicator for the assistant's reply
+            const loadingIndicator = document.createElement('div');
+            loadingIndicator.id = 'loading-indicator';
+            loadingIndicator.className = 'message assistant self-start bg-gray-200 text-gray-600 p-3 rounded-xl rounded-tl-sm max-w-[80%] animate-pulse';
+            loadingIndicator.textContent = 'Assistant is typing...';
+            chatWindow.appendChild(loadingIndicator);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+
+
+            try {
+                // 3. Call the Vercel API Route (/api/chat)
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    // Send the user's prompt to the backend
+                    body: JSON.stringify({ prompt: prompt }),
+                });
+
+                // Remove the loading indicator
+                loadingIndicator.remove();
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // 4. Display the assistant's response
+                displayMessage(data.text || "Sorry, I received an empty response.", 'assistant');
+
+            } catch (error) {
+                console.error('API call failed:', error);
+                
+                // If loading indicator still exists (e.g., fetch failed instantly), remove it
+                document.getElementById('loading-indicator')?.remove();
+
+                // Display a user-friendly error message
+                displayMessage(`Error: Could not connect to the assistant. Check the server logs (F12) for details. The most common cause is the missing or incorrect \`/api/chat\` function.`, 'assistant');
+            } finally {
+                sendButton.disabled = false;
+                userInput.focus();
+            }
+        }
+    </script>
 </body>
 </html>
