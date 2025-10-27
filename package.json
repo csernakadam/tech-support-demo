@@ -7,6 +7,6 @@
     "start": "echo 'Vercel is running the API function, not this script. Static files are served directly.'"
   },
   "dependencies": {
-    "@google/genai": "^0.1.0"
+    "@google/genai": "1.27.0"
   }
 }
