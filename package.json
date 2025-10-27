@@ -1,0 +1,12 @@
+{
+  "name": "tech-support-assistant",
+  "version": "1.0.0",
+  "description": "A Gemini-powered tech support assistant deployed on Vercel.",
+  "private": true,
+  "scripts": {
+    "start": "echo 'Vercel is running the API function, not this script. Static files are served directly.'"
+  },
+  "dependencies": {
+    "@google/genai": "^0.1.0"
+  }
+}
